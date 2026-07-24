@@ -350,10 +350,13 @@
       overflow: hidden;
     }
     .photo-banner img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center 20%;
+      display: block;
     }
     .photo-banner-veil {
       position: absolute;
@@ -900,10 +903,8 @@
     <p class="env-hint">Click the envelope to open</p>
   </div>
 
-  <!-- background music -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="Assets/Zariya-%20status%20whatsapp%20%23whatsapp%20%23status%20%23morning%20%23feel%20%23happy%20%23alone.mp3" type="audio/mpeg">
-  </audio>
+  <!-- background music (src set via JS inside gesture handler for iOS compatibility) -->
+  <audio id="bg-music" loop></audio>
 
   <!-- mute / unmute button -->
   <button id="music-btn" onclick="toggleMusic()" title="Mute / Unmute">
@@ -1188,9 +1189,11 @@
       seal.classList.add('hidden');
       flap.classList.add('open');
 
-      /* start music (user gesture required — click satisfies it) */
+      /* start music — set src + load() inside gesture handler for iOS Safari */
       var music = document.getElementById('bg-music');
+      music.src = 'Assets/Zariya-%20status%20whatsapp%20%23whatsapp%20%23status%20%23morning%20%23feel%20%23happy%20%23alone.mp3';
       music.volume = 0.6;
+      music.load();
       music.play().catch(function(){});
 
       /* 2 — fade overlay, restore scroll, show music btn */
